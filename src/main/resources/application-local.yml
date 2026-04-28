@@ -2,6 +2,10 @@ spring:
   config:
     activate:
       on-profile: local
+  flyway:
+    locations:
+      - classpath:db/migration
+      - classpath:db/migration/local
   datasource:
     url: jdbc:mysql://localhost:3307/arbiter?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=UTC
     username: arbiter
@@ -20,12 +24,21 @@ spring:
     port: 5672
     username: arbiter
     password: arbiterpw
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8081/realms/ilovepawn
 
 management:
   endpoints:
     web:
       exposure:
         include: "*"
+
+arbiter:
+  cors:
+    allowed-origins: http://localhost:3000
 
 logging:
   level:

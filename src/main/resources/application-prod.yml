@@ -20,6 +20,15 @@ spring:
     username: ${RABBITMQ_USERNAME}
     password: ${RABBITMQ_PASSWORD}
     virtual-host: ${RABBITMQ_VHOST}
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_ISSUER_URI}
+
+arbiter:
+  cors:
+    allowed-origins: ${ALLOWED_ORIGINS}
 
 management:
   endpoints:
