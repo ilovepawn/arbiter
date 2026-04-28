@@ -2,6 +2,9 @@ spring:
   config:
     activate:
       on-profile: dev
+  flyway:
+    locations:
+      - classpath:db/migration
   datasource:
     url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=true&characterEncoding=UTF-8&serverTimezone=UTC
     username: ${DB_USERNAME}
@@ -15,6 +18,15 @@ spring:
     port: ${RABBITMQ_PORT}
     username: ${RABBITMQ_USERNAME}
     password: ${RABBITMQ_PASSWORD}
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_ISSUER_URI}
+
+arbiter:
+  cors:
+    allowed-origins: ${ALLOWED_ORIGINS}
 
 logging:
   level:

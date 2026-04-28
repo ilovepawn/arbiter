@@ -39,6 +39,30 @@ services:
       timeout: 3s
       retries: 5
 
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0
+    container_name: arbiter-keycloak
+    restart: unless-stopped
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: ${KEYCLOAK_ADMIN_USER}
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+      KC_HEALTH_ENABLED: "true"
+      KC_METRICS_ENABLED: "true"
+      KC_HTTP_PORT: 8080
+      KC_HTTP_MANAGEMENT_PORT: 9000
+    command: start-dev
+    ports:
+      - "8081:8080"
+      - "9001:9000"
+    volumes:
+      - keycloak-data:/opt/keycloak/data
+    healthcheck:
+      test: [ "CMD-SHELL", "exec 3<>/dev/tcp/127.0.0.1/9000; printf 'GET /health/ready HTTP/1.1\\r\\nhost: localhost\\r\\nConnection: close\\r\\n\\r\\n' >&3; cat <&3 | head -1 | grep -q '200'" ]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
   rabbitmq:
     image: rabbitmq:3.13-management-alpine
     container_name: arbiter-rabbitmq
@@ -118,3 +142,4 @@ volumes:
   rabbitmq-data:
   prometheus-data:
   grafana-data:
+  keycloak-data:
