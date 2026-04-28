@@ -1,0 +1,15 @@
+.git
+.gitignore
+.gitattributes
+.gradle
+build
+.idea
+*.iml
+.vscode
+.claude
+HELP.md
+README.md
+docker-compose.yml
+.env
+.env.*
+infra
